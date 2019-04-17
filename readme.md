@@ -9,3 +9,4 @@ This quickstart exposes the following endpoints important for Kubernetes deploym
 - `/actuator/health` - Spring Boot endpoint indicating health. Used by Kubernetes as readiness probe.
 - `/actuator/metrics` - Prometheus metrics. Invoked periodically and collected by Prometheus Kubernetes scraper.
 
+
