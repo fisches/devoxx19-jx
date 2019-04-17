@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/fisches/devoxx19-jx:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/fisches/devoxx19-jx:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: devoxx19-jx
+        chartPath: charts/devoxx19-jx
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/fisches/devoxx19-jx'
+          image.tag: '{{.DIGEST_HEX}}'
